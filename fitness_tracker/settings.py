@@ -84,19 +84,20 @@ WSGI_APPLICATION = 'fitness_tracker.wsgi.application'
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-"rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "DEFAULT_FILTER_BACKENDS": [
         "django_filters.rest_framework.DjangoFilterBackend",
         "rest_framework.filters.OrderingFilter",
         "rest_framework.filters.SearchFilter",
-        ]
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination", 
-    "PAGE_SIZE": 20
-    "EXCEPTION_HANDLER": 
-    "core.exceptions.custom_exception_handler",
-        
+    ],
+    
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
+
+    "EXCEPTION_HANDLER": "core.exceptions.custom_exception_handler",
 }
+
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
