@@ -1,9 +1,12 @@
-from rest_framework import viewsets, permissions 
-from rest_framework.filters import OrderingFilter 
-from django_filters.rest_framework import DjangoFilterBackend 
-from .models import Activity 
-from .serializers import ActivitySerializer 
+from rest_framework import viewsets, permissions, generics
+from rest_framework.filters import OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
+from django.contrib.auth.models import User
+from .models import Activity
+from .serializers import ActivitySerializer, UserSerializer
 from .filters import ActivityFilter
+from .serializers import RegisterSerializer
+
 
 class ActivityViewSet(viewsets.ModelViewSet):
     """ 
@@ -16,16 +19,16 @@ class ActivityViewSet(viewsets.ModelViewSet):
     """
     serializer_class = ActivitySerializer
     permission_classes = [permissions.IsAuthenticated]
-    filter_backends = [DjangoFilterBackend, OrderingFilter] 
-    filterset_class = ActivityFilter ordering_fields = ["date", "duration_minutes", "calories", "distance_km"] 
-    ordering = ["-date"] # default: newest first
-    
+    filter_backends = [DjangoFilterBackend, OrderingFilter]   # <-- fixed line
+    filterset_class = ActivityFilter
+    ordering_fields = ["date", "duration", "calories", "distance"]
+
     def get_queryset(self):
         return Activity.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-#  User CRUD (Profile)
+
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
     Allows logged-in user to:
@@ -34,11 +37,18 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     - Delete account (DELETE)
     """ 
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated] 
-    def get_object(self): 
-        # Always return the logged-in user 
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):  
         return self.request.user
-    
-    # User Registration 
-    class RegisterView(generics.CreateAPIView): """ Allows new users to register (POST). """ queryset = User.objects.all() serializer_class = UserSerializer permission_classes = [permissions.AllowAny]
+
+
+class RegisterView(generics.CreateAPIView):
+    """
+    Allows new users to register (POST).
+    """ 
+    queryset = User.objects.all()
+    serializer_class = RegisterSerializer
+    permission_classes = [permissions.AllowAny]
+
 # Create your views here.

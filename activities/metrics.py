@@ -70,4 +70,3 @@ class ActivitySummaryView(APIView):
             "weekly_breakdown": list(weekly) if weekly else None,
             "monthly_breakdown": list(monthly) if monthly else None,
         })
-`

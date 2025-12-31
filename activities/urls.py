@@ -1,12 +1,15 @@
+from django.contrib import admin
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from django.urls import path
-from .views import ActivityViewSet
-from .metrics import ActivitySummaryView   # import the summary view
+from activities.views import ActivityViewSet
+from users.views import RegisterView
 
 router = DefaultRouter()
-router.register("activities", ActivityViewSet, basename="activity")
+router.register(r'activities', ActivityViewSet, basename='activity')
 
-urlpatterns = router.urls + [
-    path("activities/summary/", ActivitySummaryView.as_view(), name="activity-summary"),
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/register/', RegisterView.as_view(), name='register'),
+    path('api/', include(router.urls)),
 ]
 
