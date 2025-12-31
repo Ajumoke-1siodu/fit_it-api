@@ -17,8 +17,8 @@ class ActivityViewSet(viewsets.ModelViewSet):
     serializer_class = ActivitySerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend, OrderingFilter] 
-    filterset_class = ActivityFilter ordering_fields = ["date", "duration_minutes", "calories", "distance_km"] 
-    ordering = ["-date"] # default: newest first
+    filterset_class = ActivityFilter 
+    ordering_fields = ["date", "duration", "calories_burned", "distance"]
     
     def get_queryset(self):
         return Activity.objects.filter(user=self.request.user)
@@ -40,5 +40,11 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
         return self.request.user
     
     # User Registration 
-    class RegisterView(generics.CreateAPIView): """ Allows new users to register (POST). """ queryset = User.objects.all() serializer_class = UserSerializer permission_classes = [permissions.AllowAny]
+    class RegisterView(generics.CreateAPIView):  
+        """
+        Allows new users to register (POST).
+        """
+        queryset = User.objects.all()
+        serializer_class = UserSerializer
+        permission_classes = [permissions.AllowAny]
 # Create your views here.
