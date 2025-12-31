@@ -2,14 +2,10 @@ from pathlib import Path
 import os
 from datetime import timedelta
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-2bp)npfrd73)f(jyiqjt3*dhdil^@cagt4rm343b)*43qmq06('
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -82,7 +78,6 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 10,
     "EXCEPTION_HANDLER": "core.exceptions.custom_exception_handler",
 }
-
 
 
 SIMPLE_JWT = {
