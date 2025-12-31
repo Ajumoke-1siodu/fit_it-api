@@ -19,11 +19,10 @@ class ActivityViewSet(viewsets.ModelViewSet):
     """
     serializer_class = ActivitySerializer
     permission_classes = [permissions.IsAuthenticated]
-    filter_backends = [DjangoFilterBackend, OrderingFilter]   # <-- fixed line
+
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_class = ActivityFilter
     ordering_fields = ["date", "duration", "calories", "distance"]
-
-    def get_queryset(self):
         return Activity.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
@@ -41,6 +40,7 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):  
         return self.request.user
+<<<<<<< HEAD
 
 
 class RegisterView(generics.CreateAPIView):
@@ -51,4 +51,15 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
     permission_classes = [permissions.AllowAny]
 
+=======
+    
+    # User Registration 
+    class RegisterView(generics.CreateAPIView):  
+        """
+        Allows new users to register (POST).
+        """
+        queryset = User.objects.all()
+        serializer_class = UserSerializer
+        permission_classes = [permissions.AllowAny]
+>>>>>>> 64935986a66f2144e2b20a91cb850e6657c043a9
 # Create your views here.
